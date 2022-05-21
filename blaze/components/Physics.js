@@ -1,5 +1,5 @@
-import Vector from '../../Util/Vector.js';
-import {BoxPhysics, CirclePhysics} from '../../physics/PhysicsObjects.js';
+import Vector from '../Util/Vector.js';
+import {BoxPhysics, CirclePhysics} from '../physics/PhysicsObjects.js';
 
 
 function Physics (STATIC, body) {

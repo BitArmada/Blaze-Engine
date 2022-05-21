@@ -1,8 +1,8 @@
 import Canvas from './Util/Canvas.js';
 import Renderer from './Rendering/WebGL/Renderer.js';
-import Render from './ECS/Systems/Render.js';
-import ScriptSystem from './ECS/Systems/ScriptSystem.js';
-import Physics from './ECS/Systems/Physics.js';
+import Render from './Systems/Render.js';
+import ScriptSystem from './Systems/ScriptSystem.js';
+import Physics from './Systems/Physics.js';
 
 const Config = {
 	//defualt global configurations

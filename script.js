@@ -1,6 +1,6 @@
 import * as Blaze from './blaze/blaze.js';
-import Entity from './blaze/ECS/Entity.js';
-import Components from './blaze/ECS/Components.js';
+import Entity from './blaze/Entity/Entity.js';
+import Components from './blaze/components/Components.js';
 import Vector from './blaze/Util/Vector.js';
 import * as Input from './blaze/Events/Events.js';
 import Script from './blaze/scripting/Script.js';

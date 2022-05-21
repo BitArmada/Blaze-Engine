@@ -5,8 +5,8 @@ function ScriptSystem(entities){
         var entity = entities[entityId];
 
 		//check if current entity has a script component
-		if(entity.components.Script){
-			var script = entity.components.Script.script;
+		if(entity.Script){
+			var script = entity.Script.script;
 			script.update();
 		}
 	}

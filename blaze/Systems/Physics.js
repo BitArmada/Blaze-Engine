@@ -1,6 +1,8 @@
+
 var Engine = Matter.Engine;
 var Bodies = Matter.Bodies;
 var World = Matter.World;
+
 class Physics{
 	constructor(){
 		this.engine = Engine.create();
@@ -13,13 +15,13 @@ class Physics{
 	update(entities){
 		for( var entityId in entities ){
 			var entity = entities[entityId];
-			if(entity.components.Physics && entity.components.Transform){
-				var transform = entity.components.Transform;
-				var physics = entity.components.Physics;
+			if(entity.Physics && entity.Transform){
+				var transform = entity.Transform;
+				var physics = entity.Physics;
 
 				//if entity does not have physics object defined yet
-				if(typeof entity.components.Physics.physicsObject == "function"){
-					entity.components.Physics.physicsObject = new entity.components.Physics.physicsObject(transform.position, transform.scale, physics.isStatic);
+				if(typeof entity.Physics.physicsObject == "function"){
+					entity.Physics.physicsObject = new entity.Physics.physicsObject(transform.position, transform.scale, physics.isStatic);
 					this.add(physics.physicsObject.body);
 				}
 
@@ -34,13 +36,13 @@ class Physics{
 	start(entities){
 		for( var entityId in entities ){
 			var entity = entities[entityId];
-			if(entity.components.Physics && entity.components.Transform){
-				var transform = entity.components.Transform;
-				var physics = entity.components.Physics;
+			if(entity.Physics && entity.Transform){
+				var transform = entity.Transform;
+				var physics = entity.Physics;
 
 				//if entity does not have physics object defined yet
-				if(typeof entity.components.Physics.physicsObject == "function"){
-					entity.components.Physics.physicsObject = new entity.components.Physics.physicsObject(transform.position, transform.scale, physics.isStatic);
+				if(typeof entity.Physics.physicsObject == "function"){
+					entity.Physics.physicsObject = new entity.Physics.physicsObject(transform.position, transform.scale, physics.isStatic);
 					this.add(physics.physicsObject.body);
 				}
 
@@ -75,9 +77,9 @@ export default Physics;
 // 	// 	//the curent entity
 //     //    // var entity = entities[entityId];
 // 	// 	//check if current entity has a transform component
-// 	// 	if(entity.components.Physics){
-// 	// 		var transform = entity.components.Transform;
-// 	// 		var physics = entity.components.Physics;
+// 	// 	if(entity.Physics){
+// 	// 		var transform = entity.Transform;
+// 	// 		var physics = entity.Physics;
 
 // 	// 		if(!physics.movable){
 // 	// 			continue;
@@ -96,7 +98,7 @@ export default Physics;
 // 	// 		//crapy box collisions
 // 	// 		for(var otherEnt in entities){
 // 	// 			var ent2 = entities[otherEnt];
-// 	// 			if(ent2.id !== entity.id && AABB(entity.components.Transform, nextpos, ent2.components.Transform)){
+// 	// 			if(ent2.id !== entity.id && AABB(entity.Transform, nextpos, ent2.components.Transform)){
 // 	// 				if(physics.velocity.x !== 0){
 // 	// 					physics.velocity.x = 0;
 // 	// 				}

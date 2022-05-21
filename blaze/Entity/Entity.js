@@ -3,14 +3,12 @@ class Entity{
 		this.id = (+new Date()).toString(16) + (Math.random() * 100000000 | 0).toString(16)+Entity.prototype._count;
 
 		Entity.prototype._count++;
-
-		this.components = {};
 	}
 	initScript(scriptComponent){
 		var script = scriptComponent.script;
 		//script.enitity = this;
-		for( var componentName in this.components ){
-			var component = this.components[componentName];
+		for( var componentName in this ){
+			var component = this[componentName];
 			script[componentName] = component;
 		}
 	}
@@ -19,7 +17,7 @@ class Entity{
 Entity.prototype._count = 0;
 
 Entity.prototype.add = function addComponent(component) {
-	this.components[component.name] = component;
+	this[component.name] = component;
 	return this;
 };
 
@@ -27,7 +25,7 @@ Entity.prototype.addScript = function addScript(component){
 	//initialize the script
 	this.initScript(component);
 	
-	this.components[component.name] = component;
+	this[component.name] = component;
 
 	component.script.start();
 	return this;
@@ -42,7 +40,7 @@ Entity.prototype.remove = function removeComponen(componentName){
 	}
 
 	// Remove component data by removing the reference to it
-    delete this.components[name];
+    delete this[name];
     return this;
 };
 

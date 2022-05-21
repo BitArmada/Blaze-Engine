@@ -1,4 +1,4 @@
-import Matrix4 from '../../Util/Matrix4.js';
+import Matrix4 from '../Util/Matrix4.js';
 
 var Camera = function () {
 	//camera stuff move this somewere else later

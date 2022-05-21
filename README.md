@@ -6,6 +6,9 @@ Blaze Engine
 **Author:** *Barkai Lazimy*
 
 # Long Term Goals
+1. webassembly integration
+2. PBR lighting
+3. Interactive editor
 
 # TODO
 1. update SYSTEMS to use classes and have getters and setters as for initialization and later updates
@@ -15,3 +18,4 @@ Blaze Engine
 5. add texture loading
 6. change component system to use `this[component.name] = component;`
 7. make a new blaze window editor
+8. remove freezing frames

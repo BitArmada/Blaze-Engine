@@ -1,5 +1,5 @@
-import Vector from '../../Util/Vector.js';
-import {default as WebGLMesh} from '../../Rendering/WebGL/Mesh.js';
+import Vector from '../Util/Vector.js';
+import {default as WebGLMesh} from '../Rendering/WebGL/Mesh.js';
 
 
 var obj = 

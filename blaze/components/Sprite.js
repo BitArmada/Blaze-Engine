@@ -1,4 +1,4 @@
-import Vector from '../../Util/Vector.js';
+import Vector from '../Util/Vector.js';
 
 
 function Sprite (src) {
