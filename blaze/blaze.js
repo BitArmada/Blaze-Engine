@@ -1,8 +1,6 @@
 import Canvas from './Util/Canvas.js';
 import Renderer from './Rendering/WebGL/Renderer.js';
-import Render from './Systems/Render.js';
-import ScriptSystem from './Systems/ScriptSystem.js';
-import Physics from './Systems/Physics.js';
+import SystemManager from './Systems/SystemManager.js';
 
 const Config = {
 	//defualt global configurations
@@ -31,8 +29,7 @@ class Scene{
 		//init renderer and canvas
 		this.canvas = new Canvas(this.config);
 
-		//physics engine
-		this.physics = new Physics();
+		this.systemManager = new SystemManager();
 
 		if(this.config.fillWindow){
 			//fill the window
@@ -42,23 +39,22 @@ class Scene{
 		}
 
 		this.renderer = new Renderer(this.canvas);
+
+		// set the system managers renderer
+		this.systemManager.renderer = this.renderer;
 	}
 	start(){
 		setInterval(this.update.bind(this), 1000/this.config.fps);
-		this.physics.start(this.entities);
+
+		// start systems
+		this.systemManager.start(this.entities);
 	}
 	update(){
 		//clear canvas
 		this.renderer.clear();
 
-		//run ScriptSystem
-		ScriptSystem(this.entities);
-
-		//render entities
-		Render(this.entities, this.renderer);
-
-		//calculate entities
-		this.physics.update(this.entities);
+		// call systems
+		this.systemManager.update(this.entities);
 	}
 	add(entity){
 		this.entities[entity.id] = entity;
