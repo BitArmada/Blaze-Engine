@@ -1,10 +1,10 @@
-import * as Blaze from './blaze/blaze.js';
-import Entity from './blaze/Entity/Entity.js';
-import Components from './blaze/components/Components.js';
-import Vector from './blaze/Util/Vector.js';
-import * as Input from './blaze/Events/Events.js';
-import Script from './blaze/scripting/Script.js';
-import {BoxPhysics, CirclePhysics} from './blaze/physics/PhysicsObjects.js';
+import * as Blaze from './Blaze/Blaze.js';
+import Entity from './Blaze/Entity/Entity.js';
+import Components from './Blaze/components/Components.js';
+import Vector from './Blaze/Util/Vector.js';
+import * as Input from './Blaze/Events/Events.js';
+import Script from './Blaze/scripting/Script.js';
+import {BoxPhysics, CirclePhysics} from './Blaze/physics/PhysicsObjects.js';
 
 var scene = new Blaze.Scene('test');
 

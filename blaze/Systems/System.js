@@ -1,5 +1,8 @@
 
 class System {
+
+    requirements = [];
+
     constructor(){
         
     }
@@ -8,7 +11,7 @@ class System {
 
     }
 
-    onStart(){
+    Start(){
 
     }
 
