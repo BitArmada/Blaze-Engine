@@ -67,4 +67,4 @@ class Scene{
 	}
 }
 
-export{Scene};
+export default Scene;
