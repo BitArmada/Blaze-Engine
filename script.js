@@ -115,4 +115,9 @@ import * as Blaze from './Blaze/Blaze.js';
 
 var scene = new Blaze.Scene('test');
 
+var platform = new Entity();
+platform.add(new Components.Transform(new Vector(1,0,-5), new Vector(1, 1, 1)));
+platform.add(new Components.Mesh(new Vector(1,0,-10)));
+scene.add(platform);
+
 scene.start();
