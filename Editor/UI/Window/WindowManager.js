@@ -1,9 +1,9 @@
 
 
 class WindowManager{
-    constructor(){
-        
+    constructor(){    
     }
+    add(window){}
 }
 
 export default WindowManager;

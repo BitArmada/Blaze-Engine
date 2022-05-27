@@ -115,9 +115,13 @@ import * as Blaze from './Blaze/Blaze.js';
 
 var scene = new Blaze.Scene('test');
 
-var platform = new Entity();
-platform.add(new Components.Transform(new Vector(1,0,-5), new Vector(1, 1, 1)));
-platform.add(new Components.Mesh(new Vector(1,0,-10)));
+var platform = new Blaze.Entity();
+platform.add(new Blaze.Components.Transform(new Blaze.Vector(1,0,-5), new Blaze.Vector(1, 1, 1)));
+platform.add(new Blaze.Components.Mesh(new Blaze.Vector(1,0,-10)));
 scene.add(platform);
+
+Blaze.Input.keyPress("g", ()=>{
+    scene.renderer.wireframe = !scene.renderer.wireframe;
+});
 
 scene.start();

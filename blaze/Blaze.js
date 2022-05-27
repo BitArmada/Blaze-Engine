@@ -1,6 +1,6 @@
 
 import Scene from './Scene.js';
-import Vector from './Vector.js';
+import Vector from './Util/Vector.js';
 import Components from './components/Components.js';
 import Entity from './Entity/Entity.js';
 import * as Input from './Events/Events.js';
@@ -13,5 +13,5 @@ export {
     Vector,
     Components,
     Entity,
-    
+    Input,
 };
