@@ -1,4 +1,5 @@
 import Matrix4 from '../Util/Matrix4.js';
+import Vector from '../Util/Vector.js';
 
 var Camera = function () {
 	//camera stuff move this somewere else later
@@ -13,6 +14,8 @@ var Camera = function () {
 		this.view,
 		[-0.0, 0.0, 0.0]
 	);
+
+	this.direction = new Vector(0,0,1);
 	return this;
 }
 

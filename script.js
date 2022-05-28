@@ -115,21 +115,35 @@ import * as Blaze from './Blaze/Blaze.js';
 
 var scene = new Blaze.Scene('test');
 
+var time = 0;
+
 class Rotate extends Blaze.Script{
     update(){
-        this.Transform.rotation+=0.01;
+        this.Transform.position.x = (Math.cos(time)*3);
+        //this.Transform.position.z = (Math.sin(time)*3);
+
+        // this.Camera.direction = Blaze.Vector.subtract(platform.Transform.position, this.Transform.position)
+        // this.Camera.direction.normalize();
+        time+=0.01;
+    }
+}
+
+class Scale extends Blaze.Script{
+    update(){
+        this.Transform.scale.x +=0.01;
     }
 }
 
 var camera = new Blaze.Entity();
 camera.add(new Blaze.Components.Camera())
-camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,0)))
+camera.add(new Blaze.Components.Transform(new Blaze.Vector(0.1,0.1,0.1)))
 camera.addScript(new Blaze.Components.Script(new Rotate()));
 scene.add(camera)
 
 var platform = new Blaze.Entity();
-platform.add(new Blaze.Components.Transform(new Blaze.Vector(1,0,-5), new Blaze.Vector(1, 1, 1)));
-platform.add(new Blaze.Components.Mesh(new Blaze.Vector(1,0,-10)));
+platform.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 1, 1)));
+platform.add(new Blaze.Components.Mesh());
+platform.addScript(new Blaze.Components.Script(new Scale()));
 scene.add(platform);
 
 Blaze.Input.keyPress("g", ()=>{

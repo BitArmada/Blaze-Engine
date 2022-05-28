@@ -1,4 +1,5 @@
 import Matrix4 from '../Util/Matrix4.js';
+import Vector from '../Util/Vector.js';
 import System from './System.js';
 
 class Render extends System{
@@ -20,7 +21,7 @@ class Render extends System{
 	}
 
 	Camera (entity) {
-		entity.Camera.view = Matrix4.fromPositionRotation(entity.Transform.position, entity.Transform.rotation);
+		Matrix4.lookAt(entity.Camera.view.array, entity.Transform.position.toArray(), Vector.add(entity.Transform.position, entity.Camera.direction).toArray(), [0,1,0]);
 		this.renderer.useCamera(entity.Camera);
 	}
 
@@ -28,7 +29,7 @@ class Render extends System{
 		var transform = entity.Transform;
 		var mesh = entity.Mesh.mesh;
 
-		mesh.transform = Matrix4.from(transform.position, transform.scale, transform.rotation);
+		mesh.transform = Matrix4.fromRotationTranslationScale(transform.position, transform.scale, transform.rotation);
 
 		this.renderer.renderMesh(
 			mesh, // mesh
