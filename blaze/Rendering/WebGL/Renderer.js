@@ -9,19 +9,19 @@ varying highp vec3 viewPos;
 varying highp vec3 fragPos;
 
 void main() {
-	highp vec3 base = vec3(0.4,0.5,0.2);//vec3(1.0, gl_FragCoord.xy*0.001);
+	highp vec3 base = vec3(0.8,0.5,0.2);//vec3(1.0, gl_FragCoord.xy*0.001);
 	highp vec3 lightColor = vec3(1,1,1);
 	lowp float specularStrength = 0.01;
 	highp vec3 viewDir = normalize(viewPos - fragPos);
-	highp vec3 lightDir = vec3(0,1,0.5);
+	highp vec3 lightDir = vec3(0,1,1);
 
 	highp float diffuse = max(dot(Normal, lightDir), 0.0);
 
 	highp vec3 reflectDir = reflect(-lightDir, Normal);
     highp float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
 
-	//gl_FragColor = vec4((diffuse*base)+(0.4*base)+(spec*lightColor*specularStrength), 1.0);
-	gl_FragColor = vec4(Normal, 1.0);
+	gl_FragColor = vec4((diffuse*base)+(0.4*base)+(spec*lightColor*specularStrength), 1.0);
+	//gl_FragColor = vec4(Normal, 1.0);
 }
 `;
 var vs = `
@@ -116,7 +116,7 @@ class Renderer{
 		shader.assignUniform('model', mesh.transform.array);
 
 		mesh.normalMatrix = new Matrix4();
-		mesh.normalMatrix.array = Matrix4.invert(mesh.normalMatrix.array, mesh.transform.array);
+		Matrix4.invert(mesh.normalMatrix.array, this.view.array);
 		mesh.normalMatrix.transpose();
 		
 		shader.assignUniform('normalMatrix', mesh.normalMatrix.array);

@@ -279,9 +279,9 @@ f 14/2/80 2/4/80 15/18/80
 
 var Mesh = function (position) {
 	this.mesh = new WebGLMesh();
-	if(position.x > 0){
-		this.mesh = WebGLMesh.loadObj(obj);
-	}
+	// if(position.x > 0){
+	// 	this.mesh = WebGLMesh.loadObj(obj);
+	// }
 	return this;
 }
 

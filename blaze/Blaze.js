@@ -14,4 +14,5 @@ export {
     Components,
     Entity,
     Input,
+    Script,
 };

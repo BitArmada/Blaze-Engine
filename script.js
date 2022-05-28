@@ -115,6 +115,18 @@ import * as Blaze from './Blaze/Blaze.js';
 
 var scene = new Blaze.Scene('test');
 
+class Rotate extends Blaze.Script{
+    update(){
+        this.Transform.rotation+=0.01;
+    }
+}
+
+var camera = new Blaze.Entity();
+camera.add(new Blaze.Components.Camera())
+camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,0)))
+camera.addScript(new Blaze.Components.Script(new Rotate()));
+scene.add(camera)
+
 var platform = new Blaze.Entity();
 platform.add(new Blaze.Components.Transform(new Blaze.Vector(1,0,-5), new Blaze.Vector(1, 1, 1)));
 platform.add(new Blaze.Components.Mesh(new Blaze.Vector(1,0,-10)));
