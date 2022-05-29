@@ -23,6 +23,12 @@ class Scene{
 		this.name = name;
 		this.config = config ?? Config;
 
+		this.performance = {
+			lastTimeStamp: 0,
+			renderTime: 0,
+			FPS: 0,
+		};
+
 		//entitys
 		this.entities = {};
 
@@ -50,7 +56,13 @@ class Scene{
 		// start systems
 		this.systemManager.start(this.entities);
 	}
-	update(){
+	update(timestamp){
+		// calculate performance data
+		this.performance.renderTime = timestamp - this.performance.lastTimeStamp;
+		this.performance.FPS = 1000/(this.performance.renderTime)
+
+		this.performance.lastTimeStamp = timestamp;
+
 		//clear canvas
 		this.renderer.clear();
 
