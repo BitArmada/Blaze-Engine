@@ -44,7 +44,8 @@ class Scene{
 		this.systemManager.renderer = this.renderer;
 	}
 	start(){
-		setInterval(this.update.bind(this), 1000/this.config.fps);
+		//setInterval(this.update.bind(this), 1000/this.config.fps);
+		requestAnimationFrame(this.update.bind(this));
 
 		// start systems
 		this.systemManager.start(this.entities);
@@ -55,6 +56,8 @@ class Scene{
 
 		// call systems
 		this.systemManager.update(this.entities);
+
+		requestAnimationFrame(this.update.bind(this));
 	}
 	add(entity){
 		this.entities[entity.id] = entity;
