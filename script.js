@@ -119,32 +119,39 @@ var time = 0;
 
 class Rotate extends Blaze.Script{
     update(){
-        this.Transform.position.x = (Math.cos(time)*3);
-        //this.Transform.position.z = (Math.sin(time)*3);
+        this.Transform.position.x = (Math.cos(time)*2);
+        this.Transform.position.y = (Math.sin(time)*2);
 
-        // this.Camera.direction = Blaze.Vector.subtract(platform.Transform.position, this.Transform.position)
+        // this.Camera.direction = Blaze.Vector.subtract(box.Transform.position, this.Transform.position)
         // this.Camera.direction.normalize();
-        time+=0.01;
+        time+= 0.01;
+        //this.Transform.quaternion.setFromAxisAngle(new Blaze.Vector(0,1,0), time);
     }
 }
 
 class Scale extends Blaze.Script{
     update(){
-        this.Transform.scale.x +=0.01;
+        this.Transform.scale.x =2// +=0.01;
     }
 }
 
 var camera = new Blaze.Entity();
 camera.add(new Blaze.Components.Camera())
-camera.add(new Blaze.Components.Transform(new Blaze.Vector(0.1,0.1,0.1)))
-camera.addScript(new Blaze.Components.Script(new Rotate()));
+camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,0)))
+// camera.addScript(new Blaze.Components.Script(new Rotate()));
 scene.add(camera)
 
-var platform = new Blaze.Entity();
-platform.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 1, 1)));
-platform.add(new Blaze.Components.Mesh());
-platform.addScript(new Blaze.Components.Script(new Scale()));
-scene.add(platform);
+// var platform = new Blaze.Entity();
+// platform.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(1, 0.1, 0.1)));
+// platform.add(new Blaze.Components.Mesh());
+// platform.addScript(new Blaze.Components.Script(new Scale()));
+// scene.add(platform);
+
+var box = new Blaze.Entity();
+box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 0.1, 0.1)));
+box.add(new Blaze.Components.Mesh());
+box.addScript(new Blaze.Components.Script(new Rotate()));
+scene.add(box);
 
 Blaze.Input.keyPress("g", ()=>{
     scene.renderer.wireframe = !scene.renderer.wireframe;

@@ -261,7 +261,6 @@ class Matrix4{
 		  Math.abs(eyey - centery) < EPSILON &&
 		  Math.abs(eyez - centerz) < EPSILON
 		) {
-			console.log('triggered')
 			out = identity;
 			return out;
 		}

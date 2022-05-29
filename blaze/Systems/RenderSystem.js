@@ -29,7 +29,7 @@ class Render extends System{
 		var transform = entity.Transform;
 		var mesh = entity.Mesh.mesh;
 
-		mesh.transform = Matrix4.fromRotationTranslationScale(transform.position, transform.scale, transform.rotation);
+		mesh.transform = Matrix4.fromRotationTranslationScale(mesh.transform, transform.quaternion.array, transform.position.array, transform.scale.array);
 
 		this.renderer.renderMesh(
 			mesh, // mesh

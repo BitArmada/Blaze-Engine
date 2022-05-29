@@ -113,7 +113,7 @@ class Renderer{
 		// uniforms
 		shader.assignUniform('projection', this.projection);
 		shader.assignUniform('view', this.view.array);
-		shader.assignUniform('model', mesh.transform.array);
+		shader.assignUniform('model', mesh.transform);
 
 		mesh.normalMatrix = new Matrix4();
 		Matrix4.invert(mesh.normalMatrix.array, this.view.array);

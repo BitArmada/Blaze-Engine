@@ -6,6 +6,14 @@ class Quaternion {
         this.z = z;
         this.w = w;
     }
+
+    get array(){
+        return this.toArray();
+    }
+
+    toArray(){
+        return [this.x, this.y, this.z, this.w]
+    }
     setFromAxisAngle( axis, angle ) {
 		const halfAngle = angle / 2, s = Math.sin( halfAngle );
 
@@ -14,7 +22,7 @@ class Quaternion {
 		this.z = axis.z * s;
 		this.w = Math.cos( halfAngle );
 
-		this._onChangeCallback();
+		//this._onChangeCallback();
 
 		return this;
 

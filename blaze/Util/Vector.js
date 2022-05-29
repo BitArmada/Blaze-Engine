@@ -4,6 +4,9 @@ class Vector{
 		this.y = y ?? 0;
 		this.z = z ?? 0;
 	}
+	get array(){
+		return this.toArray();
+	}
 	add(vector, y){
 		if(vector.constructor == this.constructor){
 			this.x += vector.x;
