@@ -119,8 +119,13 @@ var time = 0;
 
 class Rotate extends Blaze.Script{
     update(){
-        this.Transform.position.x = (Math.cos(time)*2);
-        this.Transform.position.y = (Math.sin(time)*2);
+        this.Transform.position.x = (Math.cos(time)*1);
+        this.Transform.position.y = (Math.sin(time)*1);
+
+        this.Material.color.r = (Math.cos(time)/2)+0.5;
+        this.Material.color.g = (Math.sin(time)/2)+0.5;
+
+        this.Transform.quaternion.setFromAxisAngle(new Blaze.Vector(0,1,0), time);
 
         // this.Camera.direction = Blaze.Vector.subtract(box.Transform.position, this.Transform.position)
         // this.Camera.direction.normalize();
@@ -144,7 +149,7 @@ scene.add(camera)
 var box = new Blaze.Entity();
 box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 0.1, 0.1)));
 box.add(new Blaze.Components.Mesh());
-box.add(new Blaze.Components.Material( new Blaze.Color(1,0,0)));
+box.add(new Blaze.Components.Material( new Blaze.Color(0.1,0.1,0.1)));
 box.addScript(new Blaze.Components.Script(new Rotate()));
 scene.add(box);
 
