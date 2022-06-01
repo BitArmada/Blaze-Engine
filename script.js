@@ -144,6 +144,7 @@ scene.add(camera)
 var box = new Blaze.Entity();
 box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 0.1, 0.1)));
 box.add(new Blaze.Components.Mesh());
+box.add(new Blaze.Components.Material( new Blaze.Color(1,0,0)));
 box.addScript(new Blaze.Components.Script(new Rotate()));
 scene.add(box);
 

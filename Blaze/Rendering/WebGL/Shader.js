@@ -87,6 +87,12 @@ class Shader{
 						((Array.isArray(value)) ? value : value.toArray())
 					);
 					break;
+				case this.gl.FLOAT_VEC4:
+					this.gl.uniform4fv(
+						uniform.location,
+						((Array.isArray(value)) ? value : value.toArray())
+					);
+					break;
 			}
 		}else{
 			console.error('invalid uniform (check spelling and usages)');

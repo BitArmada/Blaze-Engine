@@ -1,10 +1,8 @@
-import Vector from '../../Util/Vector.js';
+import Color from '../Util/Color.js';
 
 
-function Material (src) {
-	
-	this.image = new Image();
-	this.image.src = src ?? "https://i.kym-cdn.com/entries/icons/original/000/022/134/elmo.jpg";
+function Material (color) {
+	this.color = color ?? new Color();
 	
 	return this;
 }

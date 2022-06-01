@@ -5,6 +5,7 @@ import Script from './Script.js';
 import Mesh from './Mesh.js';
 import Camera from './Camera.js';
 import PointLight from './PointLight.js';
+import Material from './Material.js';
 
 var Components = {};
 
@@ -15,5 +16,6 @@ Components.Script = Script;
 Components.Mesh = Mesh;
 Components.Camera = Camera;
 Components.PointLight = PointLight;
+Components.Material = Material;
 
 export default Components;

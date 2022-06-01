@@ -5,6 +5,7 @@ import System from './System.js';
 class Render extends System{
 	requirements = [
 		'Transform',
+		'Material',
 	];
 
 	constructor(renderer){
@@ -28,11 +29,13 @@ class Render extends System{
 	Mesh (entity) {
 		var transform = entity.Transform;
 		var mesh = entity.Mesh.mesh;
+		var material = entity.Material;
 
 		mesh.transform = Matrix4.fromRotationTranslationScale(mesh.transform, transform.quaternion.array, transform.position.array, transform.scale.array);
 
 		this.renderer.renderMesh(
 			mesh, // mesh
+			material,
 			this.renderer.shader // shader
 		);
 	}
