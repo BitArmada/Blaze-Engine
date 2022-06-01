@@ -141,12 +141,6 @@ camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,0)))
 // camera.addScript(new Blaze.Components.Script(new Rotate()));
 scene.add(camera)
 
-// var platform = new Blaze.Entity();
-// platform.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(1, 0.1, 0.1)));
-// platform.add(new Blaze.Components.Mesh());
-// platform.addScript(new Blaze.Components.Script(new Scale()));
-// scene.add(platform);
-
 var box = new Blaze.Entity();
 box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 0.1, 0.1)));
 box.add(new Blaze.Components.Mesh());
