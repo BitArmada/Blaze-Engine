@@ -73,6 +73,13 @@ class Shader{
 
 		if(uniform){
 			switch(uniform.type){
+				case this.gl.FLOAT:
+					console.log('flioat')
+					this.gl.uniform1f(
+						uniform.location,
+						value
+					);
+					break;
 				// float matrix
 				case this.gl.FLOAT_MAT4:
 					this.gl.uniformMatrix4fv(

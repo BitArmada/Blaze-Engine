@@ -6,6 +6,7 @@ var fs =
 `
 
 uniform highp vec4 baseColor;
+uniform highp float specular;
 
 varying highp vec3 Normal;
 varying highp vec3 viewPos;
@@ -118,7 +119,9 @@ class Renderer{
 		shader.assignUniform('view', this.view.array);
 		shader.assignUniform('model', mesh.transform);
 
+		// material values
 		shader.assignUniform('baseColor', material.color);
+		shader.assignUniform('specular', material.specular);
 
 		mesh.normalMatrix = new Matrix4();
 		Matrix4.invert(mesh.normalMatrix.array, mesh.transform);
