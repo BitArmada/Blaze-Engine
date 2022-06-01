@@ -121,7 +121,7 @@ class Renderer{
 		shader.assignUniform('baseColor', material.color);
 
 		mesh.normalMatrix = new Matrix4();
-		Matrix4.invert(mesh.normalMatrix.array, this.view.array);
+		Matrix4.invert(mesh.normalMatrix.array, mesh.transform);
 		mesh.normalMatrix.transpose();
 		
 		shader.assignUniform('normalMatrix', mesh.normalMatrix.array);
