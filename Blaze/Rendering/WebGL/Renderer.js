@@ -2,8 +2,10 @@ import Shader from './Shader.js';
 import Matrix4 from '../../Util/Matrix4.js';
 import Vector from '../../Util/Vector.js';
 
-var fs = 
-`
+// ignore this (for "glsl literal" vscode extension)
+const glsl = x => x;
+
+var fs = glsl`
 
 uniform highp vec4 baseColor;
 uniform highp float specular;
@@ -15,20 +17,21 @@ varying highp vec3 fragPos;
 void main() {
 	//highp vec3 base = vec3(0.8,0.5,0.2);//vec3(1.0, gl_FragCoord.xy*0.001);
 	highp vec3 lightColor = vec3(1,1,1);
-	lowp float specularStrength = 0.01;
+	lowp float specularStrength = 0.1;
 	highp vec3 viewDir = normalize(viewPos - fragPos);
 	highp vec3 lightDir = vec3(0,1,1);
 
 	highp float diffuse = max(dot(Normal, lightDir), 0.0);
 
 	highp vec3 reflectDir = reflect(-lightDir, Normal);
-    highp float spec = pow(max(dot(viewDir, reflectDir), 0.0), 8.0);
+    highp float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0.8);
 
 	gl_FragColor = vec4((diffuse*vec3(baseColor))+(0.4*vec3(baseColor))+(spec*lightColor*specularStrength), 1.0);
+	// gl_FragColor = vec4(spec,0.0, 0.0, 1.0);
 	//gl_FragColor = vec4(Normal, 1.0);
 }
 `;
-var vs = `
+var vs = glsl`
 attribute vec4 a_position;
 attribute vec3 normal;
 
@@ -121,7 +124,7 @@ class Renderer{
 
 		// material values
 		shader.assignUniform('baseColor', material.color);
-		shader.assignUniform('specular', material.specular);
+		//shader.assignUniform('specular', material.specular);
 
 		mesh.normalMatrix = new Matrix4();
 		Matrix4.invert(mesh.normalMatrix.array, mesh.transform);

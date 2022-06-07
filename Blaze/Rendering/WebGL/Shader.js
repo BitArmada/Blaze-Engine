@@ -72,9 +72,9 @@ class Shader{
 		var uniform = this.uniforms[name];
 
 		if(uniform){
+			//console.log(uniform.type)
 			switch(uniform.type){
 				case this.gl.FLOAT:
-					console.log('flioat')
 					this.gl.uniform1f(
 						uniform.location,
 						value
