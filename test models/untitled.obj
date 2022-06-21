@@ -1,9 +1,4 @@
-import Vector from '../Util/Vector.js';
-import {default as WebGLMesh} from '../Rendering/WebGL/Mesh.js';
-
-
-var obj = 
-`# Blender v2.92.0 OBJ File: ''
+# Blender v2.92.0 OBJ File: ''
 # www.blender.org
 mtllib untitled.mtl
 o Suzanne
@@ -2981,18 +2976,3 @@ f 314/546/939 506/539/939 504/524/939
 f 505/526/940 507/542/940 315/548/940
 f 320/452/941 322/547/941 504/524/941
 f 505/526/942 323/549/942 321/550/942
-
-`
-
-var Mesh = function (v) {
-	if(v){
-		this.mesh = WebGLMesh.loadObj(obj);
-	}else{
-		this.mesh = new WebGLMesh();
-	}
-	return this;
-}
-
-Mesh.prototype.name = 'Mesh';
-
-export default Mesh;

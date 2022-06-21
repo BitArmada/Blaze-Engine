@@ -1,128 +1,15 @@
-// import * as Blaze from './Blaze/Blaze.js';
-// import Entity from './Blaze/Entity/Entity.js';
-// import Components from './Blaze/components/Components.js';
-// import Vector from './Blaze/Util/Vector.js';
-// import * as Input from './Blaze/Events/Events.js';
-// import Script from './Blaze/scripting/Script.js';
-// import {BoxPhysics, CirclePhysics} from './Blaze/physics/PhysicsObjects.js';
-
-// var scene = new Blaze.Scene('test');
-
-// var player = new Entity();
-
-// //set default position of square to the center of the screen
-// var pos = new Vector(-1,0,-5);
-
-// class Movement extends Script{
-// 	start(){
-// 		this.velocity = new Vector();
-// 		this.speed = 0.1;
-// 	}
-// 	update(){
-// 		this.velocity.zero();
-// 		if(Input.keys['KeyW']){
-// 			this.velocity.z = this.speed;
-// 		}
-// 		if(Input.keys['KeyS']){
-// 			this.velocity.z = -this.speed;
-// 		}
-// 		if(Input.keys['KeyA']){
-// 			this.velocity.x = this.speed;
-// 		}
-// 		if(Input.keys['KeyD']){
-// 			this.velocity.x = -this.speed;
-// 		}
-// 		if(Input.keys['Space']){
-// 			this.velocity.y = -this.speed;
-// 		}
-// 		if(Input.keys['Shift']){
-// 			this.velocity.y = this.speed;
-// 		}
-// 		if(Input.keys['KeyQ']){
-// 			this.Transform.rotation+=0.1;
-// 		}
-// 		this.Transform.position.add(this.velocity);
-// 		//cameraVelocity = new Vector();
-// 	}
-// }
-
-// var camera = new Entity();
-// camera.add(new Components.Transform(new Vector(0,0,0)));
-// camera.add(new Components.Camera());
-// camera.addScript(new Components.Script(new Movement()));
-// scene.add(camera)
-
-// var pointLight = new Entity();
-// pointLight.add(new Components.PointLight());
-// pointLight.add(new Components.Transform(new Vector(0,0,-10)));
-// scene.add(pointLight);
-
-// player.add(new Components.Transform(pos, new Vector(1,1,1)));
-// player.add(new Components.Mesh(new Vector(-1,0,-10)));
-// scene.add(player);
-
-// var platform = new Entity();
-// platform.add(new Components.Transform(new Vector(1,0,-5), new Vector(1, 1, 1)));
-// platform.add(new Components.Mesh(new Vector(1,0,-10)));
-// scene.add(platform);
-
-// Input.keyPress("g", ()=>{
-// 	scene.renderer.wireframe = !scene.renderer.wireframe;
-// });
-// // Input.keyPress("w",()=>{
-// // 	camera.components.Transform.position.z+=0.2;
-// // });
-// // Input.keyPress("s",()=>{
-// // 	camera.components.Transform.position.z-=0.2;
-// // });
-// // Input.keyPress("a",()=>{
-// // 	camera.components.Transform.position.x+=0.2;
-// // });
-// // Input.keyPress("d",()=>{
-// // 	camera.components.Transform.position.x-=0.2;
-// // });
-
-// // //create platform
-// // var platform = new Entity();
-// // platform.add(new Components.Transform(new Vector(0,-20,-110), new Vector(100, 10, 10)));
-// // platform.add(new Components.Mesh());
-// // platform.add(new Components.Physics(true));
-// // scene.add(platform);
-
-// // for(var i = 0; i < 10; i++){
-// // 	var size = Math.random()*5+5;
-// // 	var ent = new Entity();
-// // 	ent.add(new Components.Transform(new Vector(-Math.random()*100 + 50, 50-(Math.random()*20)-10, -110), new Vector(size,size,size)));
-// // 	ent.add(new Components.Mesh());
-// // 	ent.add(new Components.Physics());
-// // 	scene.add(ent);
-// // }
-
-// // keyPress("w",()=>{
-// //   	var size = Math.random()*5+5;
-// // 	var ent = new Entity();
-// // 	ent.add(new Components.Transform(new Vector(-Math.random()*100 + 50, 50-(Math.random()*20)-10, -110), new Vector(size,size,size)));
-// // 	ent.add(new Components.Mesh());
-// // 	ent.add(new Components.Physics());
-// // 	scene.add(ent);
-// // });
-
-// scene.print();
-
-// scene.start();
-
 import * as Blaze from './Blaze/Blaze.js';
 
 var scene = new Blaze.Scene('test');
 
-class Rotate extends Blaze.Script{
+class Circle extends Blaze.Script{
     time = 0;
     update(){
         this.Transform.position.x = (Math.cos(this.time));
         this.Transform.position.y = (Math.sin(this.time));
 
-        this.Material.color.r = (Math.cos(this.time)/2)+0.5;
-        this.Material.color.g = (Math.sin(this.time)/2)+0.5;
+        this.Material.color.g = (Math.cos(this.time)/2)+0.5;
+        this.Material.color.r = (Math.sin(this.time)/2)+0.5;
 
         this.Transform.quaternion.setFromAxisAngle(new Blaze.Vector(0,1,0), this.time);
 
@@ -133,23 +20,51 @@ class Rotate extends Blaze.Script{
     }
 }
 
-class Scale extends Blaze.Script{
+class Pose extends Blaze.Script{
+    time = 0;
     update(){
-        this.Transform.scale.x =2// +=0.01;
+        var axis = new Blaze.Vector(0,1,1);
+        axis.normalize();
+        this.Transform.quaternion.setFromAxisAngle(axis, this.time);
+        this.time+= 0.01;
+    }
+}
+
+class Rotate extends Blaze.Script{
+    time = 0;
+    update(){
+        this.Transform.position.x = (Math.cos(this.time));
+        this.Transform.position.z = (Math.sin(this.time))-5;
+        this.time+= 0.1;
+    }
+}
+
+class Move extends Blaze.Script{
+    time = 0;
+    update(){
+        this.Transform.position.x = this.time;
+        this.time+= 0.01;
     }
 }
 
 var camera = new Blaze.Entity();
 camera.add(new Blaze.Components.Camera())
-camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,0)))
-// camera.addScript(new Blaze.Components.Script(new Rotate()));
+camera.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,10)))
+// camera.addScript(new Blaze.Components.Script(new Move()));
 scene.add(camera)
 
 var box = new Blaze.Entity();
-box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
+box.add(new Blaze.Components.Transform(new Blaze.Vector(1,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
 box.add(new Blaze.Components.Mesh());
 box.add(new Blaze.Components.Material( new Blaze.Color(0.1,0.1,0.1)));
-box.addScript(new Blaze.Components.Script(new Rotate()));
+box.addScript(new Blaze.Components.Script(new Pose()));
+scene.add(box);
+
+var box = new Blaze.Entity();
+box.add(new Blaze.Components.Transform(new Blaze.Vector(-1,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
+box.add(new Blaze.Components.Mesh(true));
+box.add(new Blaze.Components.Material( new Blaze.Color(0.5,0.1,0.1)));
+box.addScript(new Blaze.Components.Script(new Pose()));
 scene.add(box);
 
 Blaze.Input.keyPress("g", ()=>{
@@ -158,10 +73,10 @@ Blaze.Input.keyPress("g", ()=>{
 
 Blaze.Input.keyPress("w", ()=>{
     var box = new Blaze.Entity();
-    box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
+    box.add(new Blaze.Components.Transform(new Blaze.Vector(0,0,-5), new Blaze.Vector(0.1, 0.1, 0.1)));
     box.add(new Blaze.Components.Mesh());
-    box.add(new Blaze.Components.Material( new Blaze.Color(0.1,0.1,0.1)));
-    box.addScript(new Blaze.Components.Script(new Rotate()));
+    box.add(new Blaze.Components.Material( new Blaze.Color(0.5,0.4,0.2)));
+    box.addScript(new Blaze.Components.Script(new Circle()));
     scene.add(box);
 
     console.log(scene.performance.FPS)

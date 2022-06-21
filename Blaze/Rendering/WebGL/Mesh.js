@@ -346,11 +346,23 @@ class Mesh{
 			//this.addFace(p1,p2,p3);
 		}
 	}
+
+	/**
+	 * loads OBJ file with triangulated vertices given a string containing OBJ data
+	 * @param {String} text 
+	 * @returns {Mesh}
+	 */
 	static loadObj(text){
 		var mesh = new Mesh();
 		mesh.indices = [];
 		mesh.vertices = [];
 		mesh.normals = [];
+
+		// store variables here for later use
+		var vertices = [];
+		var textures = [];
+		var normals = [];
+		var indexes = [];
 		
 		var lines = text.split('\n');
 		for(var i = 0; i < lines.length; i++){
@@ -363,21 +375,33 @@ class Mesh{
 				mesh.vertices.push(parseFloat(v[3]));
 			}else if(lines[i].startsWith('vn ')){
 				var v = lines[i].split(' ');
-				mesh.normals.push(parseFloat(v[1]));
-				mesh.normals.push(parseFloat(v[2]));
-				mesh.normals.push(parseFloat(v[3]));
+				normals.push(parseFloat(v[1]));
+				normals.push(parseFloat(v[2]));
+				normals.push(parseFloat(v[3]));
 			}
 			else if(lines[i].startsWith('f ')){
-				var v = lines[i].split(' ');
-				mesh.indices.push(parseFloat(v[1].split('/')[0])-1);
-				mesh.indices.push(parseFloat(v[2].split('/')[0])-1);
-				mesh.indices.push(parseFloat(v[3].split('/')[0])-1);
+				var l = lines[i].split(' ');
+				l.shift();
+				l.forEach((vert)=>{
+					const data = vert.split('/');
+
+					// vertex data
+					mesh.indices.push(parseFloat(data[0])-1);
+					const v = (parseFloat(data[0])-1)*3;
+					// mesh.vertices.push(vertices[v]);
+					// mesh.vertices.push(vertices[v+1]);
+					// mesh.vertices.push(vertices[v+2]);
+
+					// normal data
+					const n = (parseFloat(data[2])-1)*3;
+					mesh.normals.push(normals[n]);
+					mesh.normals.push(normals[n+1]);
+					mesh.normals.push(normals[n+2]);
+				});
 			}
 		}
 
 		mesh.initData();
-
-		console.log(mesh)
 
 		return mesh;
 	}

@@ -72,7 +72,6 @@ class Shader{
 		var uniform = this.uniforms[name];
 
 		if(uniform){
-			//console.log(uniform.type)
 			switch(uniform.type){
 				case this.gl.FLOAT:
 					this.gl.uniform1f(
@@ -102,7 +101,7 @@ class Shader{
 					break;
 			}
 		}else{
-			console.error('invalid uniform (check spelling and usages)');
+			console.error(`invalid uniform ${name} (check spelling and usages)`);
 		}
 	}
 	assignAttribute(name, buffer){
