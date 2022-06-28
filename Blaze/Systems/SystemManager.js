@@ -1,4 +1,3 @@
-import PhysicsSystem from "./PhysicsSystem.js";
 import RenderSystem from "./RenderSystem.js";
 import ScriptSystem from "./ScriptSystem.js";
 import Components from "../components/Components.js";
