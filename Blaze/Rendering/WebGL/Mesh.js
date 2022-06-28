@@ -21,6 +21,7 @@ class Mesh{
 		this.indexBuffer = gl.createBuffer();
 		//stores normal data
 		this.normalBuffer = gl.createBuffer();
+		this.textureCoordBuffer = gl.createBuffer();
 
 		// data
 		this.vertices = [
@@ -149,37 +150,81 @@ class Mesh{
 			-1.0,  0.0,  0.0,
 			-1.0,  0.0,  0.0
 		];
+
+		this.textureCoordinates = [
+			// Front
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			// Back
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			// Top
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			// Bottom
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			// Right
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+			// Left
+			0.0, 0.0,
+			1.0, 0.0,
+			1.0, 1.0,
+			0.0, 1.0,
+		];
 		
 		this.initData();
 	}
 	initData(){
 		const gl = Renderer.gl;
-		//bind
+
+		// VERTICES
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.positionBuffer);
-		// put our data into the buffer
 		gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Float32Array(this.vertices),
 			gl.STATIC_DRAW
 		);
 
+		// INDICES
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
 
 		this.vertexCount = this.indices.length;
 
-		// put indices into buffer
 		gl.bufferData(
 			gl.ELEMENT_ARRAY_BUFFER,
 			new Uint16Array(this.indices),
 			gl.STATIC_DRAW
 		);
-		// bind normals
+
+
+		// NORMALS
 		gl.bindBuffer(gl.ARRAY_BUFFER, this.normalBuffer);
-		//put verticies into buffer
+
 		gl.bufferData(
 			gl.ARRAY_BUFFER, 
 			new Float32Array(this.normals),
 			gl.STATIC_DRAW
+		);
+
+		// TEXTURE COORDS
+		gl.bindBuffer(gl.ARRAY_BUFFER, this.textureCoordBuffer);
+
+		gl.bufferData(
+			gl.ARRAY_BUFFER,
+			new Float32Array(this.textureCoordinates),
+            gl.STATIC_DRAW
 		);
 	}
 

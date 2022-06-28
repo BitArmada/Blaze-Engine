@@ -60,9 +60,6 @@ class SystemManager {
                 }
             }
         }
-
-		//calculate entities
-		// this.physics.update(entities);
     }
 }
 

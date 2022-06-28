@@ -6,7 +6,6 @@ import Components from './components/Components.js';
 import Entity from './Entity/Entity.js';
 import * as Input from './Events/Events.js';
 import Script from './scripting/Script.js';
-import {BoxPhysics, CirclePhysics} from './physics/PhysicsObjects.js';
 
 
 export {

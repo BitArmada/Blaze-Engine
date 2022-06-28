@@ -1,6 +1,4 @@
 import Vector from '../Util/Vector.js';
-import {BoxPhysics, CirclePhysics} from '../physics/PhysicsObjects.js';
-
 
 function Physics (STATIC, body) {
 	
@@ -11,8 +9,6 @@ function Physics (STATIC, body) {
 
 	// this.movable = movable ?? false;
 	this.isStatic = STATIC;
-
-	this.physicsObject = body ?? BoxPhysics;
 
 	return this;
 }
