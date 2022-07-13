@@ -56,14 +56,14 @@ scene.add(camera)
 var box = new Blaze.Entity();
 box.add(new Blaze.Components.Transform(new Blaze.Vector(1,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
 box.add(new Blaze.Components.Mesh());
-box.add(new Blaze.Components.Material( new Blaze.Color(0.1,0.1,0.1)));
+box.add(new Blaze.Components.Material( new Blaze.Color(1,1,1)));
 box.addScript(new Blaze.Components.Script(new Pose()));
 scene.add(box);
 
 var box = new Blaze.Entity();
 box.add(new Blaze.Components.Transform(new Blaze.Vector(-1,0,-5), new Blaze.Vector(0.4, 0.4, 0.4)));
 box.add(new Blaze.Components.Mesh(true));
-box.add(new Blaze.Components.Material( new Blaze.Color(0.5,0.1,0.1)));
+box.add(new Blaze.Components.Material( new Blaze.Color(1,1,1)));
 box.addScript(new Blaze.Components.Script(new Pose()));
 scene.add(box);
 

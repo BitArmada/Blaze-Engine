@@ -44,8 +44,6 @@ class Shader{
 
 		this.getAttributes();
 		this.getUniforms();
-
-		console.log(this.uniforms);
     }
 	getAttributes(){
 		// get all atribute locations
@@ -99,19 +97,25 @@ class Shader{
 						((Array.isArray(value)) ? value : value.toArray())
 					);
 					break;
+				case this.gl.SAMPLER_2D:
+						this.gl.uniform1i(
+							uniform.location,
+							value
+						);
+						break;
 			}
 		}else{
 			console.error(`invalid uniform ${name} (check spelling and usages)`);
 		}
 	}
-	assignAttribute(name, buffer){
+	assignAttribute(name, num, buffer){
 		// find attribute
 		var attribute = this.attributes[name];
 
 		if(attribute){
 			this.gl.vertexAttribPointer(
 				attribute.location,
-				3,
+				num,
 				this.gl.FLOAT,
 				false,
 				0,

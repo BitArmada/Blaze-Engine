@@ -21,52 +21,11 @@ class Mesh{
 		this.indexBuffer = gl.createBuffer();
 		//stores normal data
 		this.normalBuffer = gl.createBuffer();
+
 		this.textureCoordBuffer = gl.createBuffer();
 
 		// data
 		this.vertices = [
-	// 0.600000, 0.300000, -1.700000,
-	// 0.600000, 0.100000, -1.800000,
-	// 0.600000, 0.300000, -1.600000,
-	// 0.600000, 0.100000, -0.800000,
-	// 0.600000, 0.200000, -0.800000,
-	// 0.500000, 0.300000, -0.800000,
-	// 0.500000, 0.100000, -0.800000,
-	// 0.500000, 0.200000, -0.000000,
-	// 0.500000, 0.100000, -1.800000,
-	// 0.500000, 0.300000, -1.800000,
-	// 1.000000, 0.200000, -1.800000,
-	// 1.000000, 0.200000, -1.800000,
-	// 1.000000, 0.200000, -1.400000,
-	// 1.000000, 0.200000, -1.400000,
-	// 1.000000, 0.200000, -1.400000,
-	// 0.600000, 0.300000, -1.800000,
-	// 0.600000, 0.300000, -0.800000,
-	// 0.500000, 0.300000, -1.700000,
-	// 0.500000, 0.300000, -1.600000,
-	// 0.700000, 0.500000, -1.900000,
-	// 0.700000, 0.500000, -1.800000,
-	// 0.700000, 0.500000, -1.900000,
-	// 0.700000, 0.500000, -1.800000,
-	// 0.400000, 0.300000, -1.700000,
-	// 0.400000, 0.100000, -1.800000,
-	// 0.400000, 0.300000, -1.600000,
-	// 0.400000, 0.100000, -0.800000,
-	// 0.400000, 0.200000, -0.800000,
-	// 0.000000, 0.200000, -1.800000,
-	// 0.000000, 0.200000, -1.800000,
-	// 0.000000, 0.200000, -1.400000,
-	// 0.000000, 0.200000, -1.400000,
-	// 0.000000, 0.200000, -1.400000,
-	// 0.400000, 0.300000, -1.800000,
-	// 0.400000, 0.300000, -0.800000,
-	// 0.500000, 0.300000, -1.700000,
-	// 0.500000, 0.300000, -1.600000,
-	// 0.300000, 0.500000, -1.900000,
-	// 0.300000, 0.500000, -1.800000,
-	// 0.300000, 0.500000, -1.900000,
-	// 0.300000, 0.500000, -1.800000,
-// Front face
 			// Front face
 			-1.0, -1.0,  1.0,
 			1.0, -1.0,  1.0,
@@ -393,6 +352,45 @@ class Mesh{
 	}
 
 	/**
+	 * creates OBJ file from mesh
+	 * @param { Mesh } mesh
+	 * @returns { String } OBJ data
+	 */
+	static createObj ( mesh ) {
+
+		// top of file
+		var output = 
+`# blaze OBJ
+o mesh`;
+
+		// vertices
+		for(var i = 0; i < mesh.vertices.length/3; i++){
+			const x = i*3;
+			output += `\nv ${mesh.vertices[x]} ${mesh.vertices[x+1]} ${mesh.vertices[x+2]}`;
+		}
+
+		// texture coords
+		for(var i = 0; i < mesh.textureCoordinates.length/2; i++){
+			const x = i*2;
+			output += `\nvt ${mesh.textureCoordinates[x]} ${mesh.textureCoordinates[x+1]}`;
+		}
+
+		// normals
+		for(var i = 0; i < mesh.normals.length/3; i++){
+			const x = i*3;
+			output += `\nvn ${mesh.normals[x]} ${mesh.normals[x+1]} ${mesh.normals[x+2]}`;
+		}
+
+		// faces
+		for(var i = 0; i < mesh.indices.length/3; i++){
+			const x = i*3;
+			output += `\nf ${mesh.indices[x]+1}/${mesh.indices[x]+1}/${mesh.indices[x]+1} ${mesh.indices[x+1]+1}/${mesh.indices[x+1]+1}/${mesh.indices[x+1]+1} ${mesh.indices[x+2]+1}/${mesh.indices[x+2]+1}/${mesh.indices[x+2]+1}`;
+		}
+
+		return output;
+	}
+
+	/**
 	 * loads OBJ file with triangulated vertices given a string containing OBJ data
 	 * @param {String} text 
 	 * @returns {Mesh}
@@ -402,51 +400,91 @@ class Mesh{
 		mesh.indices = [];
 		mesh.vertices = [];
 		mesh.normals = [];
+		mesh.textureCoordinates = [];
 
 		// store variables here for later use
 		var vertices = [];
-		var textures = [];
+		var textureCoordinates = [];
 		var normals = [];
 		var indexes = [];
+
+		var index = 0;
 		
 		var lines = text.split('\n');
 		for(var i = 0; i < lines.length; i++){
+			
 			if(lines[i].startsWith('#')){
 				continue;
-			}else if(lines[i].startsWith('v ')){
+			}
+
+			else if(lines[i].startsWith('v ')){
+
 				var v = lines[i].split(' ');
-				mesh.vertices.push(parseFloat(v[1]));
-				mesh.vertices.push(parseFloat(v[2]));
-				mesh.vertices.push(parseFloat(v[3]));
-			}else if(lines[i].startsWith('vn ')){
+				vertices.push(parseFloat(v[1]));
+				vertices.push(parseFloat(v[2]));
+				vertices.push(parseFloat(v[3]));
+
+			}
+			
+			else if(lines[i].startsWith('vn ')){
+
 				var v = lines[i].split(' ');
 				normals.push(parseFloat(v[1]));
 				normals.push(parseFloat(v[2]));
 				normals.push(parseFloat(v[3]));
+
 			}
-			else if(lines[i].startsWith('f ')){
+
+			else if(lines[i].startsWith('vt ')){
+
+				var v = lines[i].split(' ');
+				textureCoordinates.push(parseFloat(v[1]));
+				textureCoordinates.push(parseFloat(v[2]));
+
+			}
+			
+			else if( lines[i].startsWith('f ') ){
+
 				var l = lines[i].split(' ');
 				l.shift();
+
 				l.forEach((vert)=>{
+
+					
+					// get data for this vertex
 					const data = vert.split('/');
-
+					
+					// add index to the indecies list
+					mesh.indices.push(index);
+					
 					// vertex data
-					mesh.indices.push(parseFloat(data[0])-1);
 					const v = (parseFloat(data[0])-1)*3;
-					// mesh.vertices.push(vertices[v]);
-					// mesh.vertices.push(vertices[v+1]);
-					// mesh.vertices.push(vertices[v+2]);
+					mesh.vertices.push(vertices[v]);
+					mesh.vertices.push(vertices[v+1]);
+					mesh.vertices.push(vertices[v+2]);
 
+					// texture coordinate data
+					const vt = (parseFloat(data[1])-1)*2;
+					mesh.textureCoordinates.push(textureCoordinates[vt]);
+					mesh.textureCoordinates.push(textureCoordinates[vt+1]);
+					
 					// normal data
 					const n = (parseFloat(data[2])-1)*3;
 					mesh.normals.push(normals[n]);
 					mesh.normals.push(normals[n+1]);
 					mesh.normals.push(normals[n+2]);
+
+
+					// increment index
+					index++;
+
 				});
 			}
 		}
 
 		mesh.initData();
+
+		console.log(mesh)
 
 		return mesh;
 	}

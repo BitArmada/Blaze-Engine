@@ -14,7 +14,7 @@ class Render extends System{
 	}
 
 	start () {
-
+		
 	}
 
 	update () {

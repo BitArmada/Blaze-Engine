@@ -7,7 +7,6 @@ import Entity from './Entity/Entity.js';
 import * as Input from './Events/Events.js';
 import Script from './scripting/Script.js';
 
-
 export {
     Scene,
     Vector,

@@ -9,10 +9,13 @@ var fs = glsl`
 
 uniform highp vec4 baseColor;
 uniform highp float specular;
+uniform sampler2D Sampler;
+
 
 varying highp vec3 Normal;
 varying highp vec3 viewPos;
 varying highp vec3 fragPos;
+varying highp vec2 TextureCoord;
 
 void main() {
 	//highp vec3 base = vec3(0.8,0.5,0.2);//vec3(1.0, gl_FragCoord.xy*0.001);
@@ -26,14 +29,22 @@ void main() {
 	highp vec3 reflectDir = reflect(-lightDir, Normal);
     highp float spec = pow(max(dot(viewDir, reflectDir), 0.0), 0.8);
 
-	gl_FragColor = vec4((diffuse*vec3(baseColor))+(0.4*vec3(baseColor))+(spec*lightColor*specularStrength), 1.0);
+	highp vec4 color = texture2D(Sampler, TextureCoord) * baseColor;
+
+	gl_FragColor = vec4(
+		(diffuse*vec3(color))+
+		(0.4*vec3(color))+
+		(spec*lightColor*specularStrength),
+	1.0);
 	// gl_FragColor = vec4(spec,0.0, 0.0, 1.0);
+	//gl_FragColor = vec4(TextureCoord, 0.0, 1.0);
 	//gl_FragColor = vec4(Normal, 1.0);
 }
 `;
 var vs = glsl`
 attribute vec4 a_position;
 attribute vec3 normal;
+attribute vec2 textureCoord;
 
 uniform mat4 normalMatrix;
 uniform mat4 model;
@@ -44,9 +55,11 @@ uniform vec3 viewPosition;
 varying highp vec3 Normal;
 varying highp vec3 viewPos;
 varying highp vec3 fragPos;
+varying highp vec2 TextureCoord;
 
 void main() {
 	viewPos = viewPosition;
+	TextureCoord = textureCoord;
 	fragPos = gl_Position.xyz;
 	Normal = normalize((normalMatrix * vec4(normal, 1.0)).xyz);
     gl_Position = projection * model * view * a_position;
@@ -109,13 +122,18 @@ class Renderer{
 
 		// bind vertices
 		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.positionBuffer);
-    	shader.assignAttribute('a_position');
+    	shader.assignAttribute('a_position', 3);
 		gl.enableVertexAttribArray(shader.attributes.a_position.location);
 
 		// bind normals
 		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.normalBuffer);
-		shader.assignAttribute('normal');
+		shader.assignAttribute('normal', 3);
 		gl.enableVertexAttribArray(shader.attributes.normal.location);
+
+		// bind textures
+		gl.bindBuffer(gl.ARRAY_BUFFER, mesh.textureCoordBuffer);
+		shader.assignAttribute('textureCoord', 2);
+		gl.enableVertexAttribArray(shader.attributes.textureCoord.location);
 
 		// uniforms
 		shader.assignUniform('projection', this.projection);
@@ -125,6 +143,12 @@ class Renderer{
 		// material values
 		shader.assignUniform('baseColor', material.color);
 		//shader.assignUniform('specular', material.specular);
+
+		if(material.texture){
+			gl.activeTexture(gl.TEXTURE0);
+			gl.bindTexture(gl.TEXTURE_2D, material.texture.glTexture);
+			shader.assignUniform('Sampler', 0);
+		}
 
 		mesh.normalMatrix = new Matrix4();
 		Matrix4.invert(mesh.normalMatrix.array, mesh.transform);
