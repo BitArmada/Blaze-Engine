@@ -395,8 +395,7 @@ o mesh`;
 	 * @param {String} text 
 	 * @returns {Mesh}
 	 */
-	static loadObj(text){
-		var mesh = new Mesh();
+	static loadObj(mesh, text){
 		mesh.indices = [];
 		mesh.vertices = [];
 		mesh.normals = [];

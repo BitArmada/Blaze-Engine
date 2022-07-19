@@ -13,6 +13,7 @@ class Vector{
 			this.y += vector.y;
 			this.z += vector.z;
 		}
+		return this;
 	}
 	multiply(vector, y, z){
 		if(vector.constructor == this.constructor){
@@ -44,17 +45,20 @@ class Vector{
 		this.x *= value;
 		this.y *= value;
 		this.z *= value;
+		return this;
 	}
 	magnitude(){
 		return Math.sqrt(this.x*this.x + this.y*this.y + this.z*this.z);
 	}
 	normalize(){
 		this.scale(1/this.magnitude());
+		return this;
 	}
 	invert(){
 		this.x = -this.x;
 		this.y = -this.y;
 		this.z = -this.z;
+		return this
 	}
 	absolute(){
 		this.x = Math.abs(this.x);
@@ -69,6 +73,9 @@ class Vector{
 			(a.x*b.y)-(a.y*b.x)
 		);
 		return n;
+	}
+	static dot(a, b) {
+		return (a.x*b.x)+(a.y*b.y)+(a.z*b.z);
 	}
 	static getMiddlePoint(a, b){
 		var v = new Vector(a.x-b.x, a.y-b.y, a.z-b.z);
@@ -101,6 +108,13 @@ class Vector{
 		var out = new Vector(vec1.x+vec2.x, vec1.y+vec2.y, vec1.z+vec1.z);
 
 		return out;
+	}
+	static scale(vec, value){
+		return new Vector(
+			vec.x*value,
+			vec.y*value,
+			vec.z*value,
+		);
 	}
 }
 

@@ -2,10 +2,10 @@ import Color from '../Util/Color.js';
 import Texture from '../Rendering/Texture.js';
 
 
-function Material (color) {
-	this.color = color ?? new Color();
+function Material (color, texture) {
+	this.color = color ?? new Color(1, 1, 1);
 	this.specular = 8.0;
-	this.texture = new Texture('./Assets/container.png');
+	this.texture = new Texture(texture);
 	
 	return this;
 }

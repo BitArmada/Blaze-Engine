@@ -12,15 +12,17 @@ class Texture {
         // load defualt texture while image loadScene
         this.loadDefualtTexture();
 
-        this.image.onload = this.onload.bind(this);
-        this.image.src = src;
+        if(src){
+            this.image.onload = this.onload.bind(this);
+            this.image.src = src;
+        }
     }
     loadDefualtTexture(){
         // load 1 pixel
 
         gl.bindTexture(gl.TEXTURE_2D, this.glTexture);
 
-        const pixel = new Uint8Array([0, 0, 255, 255]);  // opaque blue
+        const pixel = new Uint8Array([255, 255, 255, 255]);  // opaque white
 
         gl.texImage2D(
             gl.TEXTURE_2D, 
