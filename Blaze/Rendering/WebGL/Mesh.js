@@ -11,7 +11,7 @@ class Mesh{
 			0, 1, 0, 0,
 			0, 0, 1, 0,
 			0, 0, 0, 1,
-		]).array;
+		]);
 
 		this.normalMatrix = new Matrix4();
 		

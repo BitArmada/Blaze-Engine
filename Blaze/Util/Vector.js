@@ -105,7 +105,7 @@ class Vector{
 		return out;
 	}
 	static add(vec1, vec2){
-		var out = new Vector(vec1.x+vec2.x, vec1.y+vec2.y, vec1.z+vec1.z);
+		var out = new Vector(vec1.x+vec2.x, vec1.y+vec2.y, vec1.z+vec2.z);
 
 		return out;
 	}
@@ -114,6 +114,14 @@ class Vector{
 			vec.x*value,
 			vec.y*value,
 			vec.z*value,
+		);
+	}
+	static normalize(vec){
+		var m = vec.magnitude();
+		return new Vector(
+			vec.x/m,
+			vec.y/m,
+			vec.z/m,
 		);
 	}
 }

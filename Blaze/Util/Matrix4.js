@@ -17,7 +17,7 @@ class Matrix4{
 			0, 0, 0, 1,
 		];
 	}
-	transform(vec){
+	translate(vec){
 		this.array[12] = vec.x;
 		this.array[13] = vec.y;
 		this.array[14] = vec.z;
@@ -33,16 +33,15 @@ class Matrix4{
 		this.array[4] += -Math.sin(rot);
 		this.array[5] += Math.cos(rot);
 	}
-	static from(pos, scale, rot){
-
-		var mat = new Matrix4([
-			scale.x/2, 0, 0, 0,
-			0, scale.y/2, 0, 0,
-			0, 0, scale.z/2, 0,
-			pos.x, pos.y, pos.z, 1,
-		]).array;
-		Matrix4.rotateZ(mat, rot)
-		return new Matrix4(mat);
+	static from(pos, scale){
+		return new Matrix4(
+			[
+				scale.x, 0, 0, 0,
+				0, scale.y, 0, 0,
+				0, 0, scale.z, 0,
+				pos.x, pos.y, pos.z, 1,
+			]
+		);
 	}
 	static fromPositionRotation(pos, rot){
 		var mat = new Matrix4([
@@ -400,7 +399,10 @@ class Matrix4{
 		}
 		return new Matrix4(out);
 	}
-	static multiply(out, a, b) {
+	static multiply(output, a, b) {
+		var out = output.array
+		a = a.array;
+		b = b.array;
 		let a00 = a[0],
 	    	a01 = a[1],
 	    	a02 = a[2],
@@ -454,10 +456,11 @@ class Matrix4{
 	  	out[13] = b0 * a01 + b1 * a11 + b2 * a21 + b3 * a31;
 	  	out[14] = b0 * a02 + b1 * a12 + b2 * a22 + b3 * a32;
 	  	out[15] = b0 * a03 + b1 * a13 + b2 * a23 + b3 * a33;
-	  	return out;
+	  	return output;
 	}
 
-	static fromRotationTranslationScale(out, q, v, s) {
+	static fromRotationTranslationScale(output, q, v, s) {
+		var out = output.array;
 		// Quaternion math
 		let x = q[0],
 		  y = q[1],
@@ -497,8 +500,120 @@ class Matrix4{
 		out[14] = v[2];
 		out[15] = 1;
 	  
+		return output;
+	}
+	  static fromRotationTranslationScaleOrigin(out, q, v, s, o) {
+		// Quaternion math
+		let x = q.x,
+		  y = q.y,
+		  z = q.z,
+		  w = q.w;
+		let x2 = x + x;
+		let y2 = y + y;
+		let z2 = z + z;
+	  
+		let xx = x * x2;
+		let xy = x * y2;
+		let xz = x * z2;
+		let yy = y * y2;
+		let yz = y * z2;
+		let zz = z * z2;
+		let wx = w * x2;
+		let wy = w * y2;
+		let wz = w * z2;
+	  
+		let sx = s.x;
+		let sy = s.y;
+		let sz = s.z;
+	  
+		let ox = o.x;
+		let oy = o.y;
+		let oz = o.z;
+	  
+		let out0 = (1 - (yy + zz)) * sx;
+		let out1 = (xy + wz) * sx;
+		let out2 = (xz - wy) * sx;
+		let out4 = (xy - wz) * sy;
+		let out5 = (1 - (xx + zz)) * sy;
+		let out6 = (yz + wx) * sy;
+		let out8 = (xz + wy) * sz;
+		let out9 = (yz - wx) * sz;
+		let out10 = (1 - (xx + yy)) * sz;
+	  
+		out[0] = out0;
+		out[1] = out1;
+		out[2] = out2;
+		out[3] = 0;
+		out[4] = out4;
+		out[5] = out5;
+		out[6] = out6;
+		out[7] = 0;
+		out[8] = out8;
+		out[9] = out9;
+		out[10] = out10;
+		out[11] = 0;
+		out[12] = v.x + ox - (out0 * ox + out4 * oy + out8 * oz);
+		out[13] = v.y + oy - (out1 * ox + out5 * oy + out9 * oz);
+		out[14] = v.z + oz - (out2 * ox + out6 * oy + out10 * oz);
+		out[15] = 1;
+	  
 		return out;
-	  }
+	}
+	static fromQuat(q) {
+		var output = new Matrix4();
+		var out = output.array;
+		let x = q.x,
+		  y = q.y,
+		  z = q.z,
+		  w = q.w;
+		let x2 = x + x;
+		let y2 = y + y;
+		let z2 = z + z;
+	  
+		let xx = x * x2;
+		let yx = y * x2;
+		let yy = y * y2;
+		let zx = z * x2;
+		let zy = z * y2;
+		let zz = z * z2;
+		let wx = w * x2;
+		let wy = w * y2;
+		let wz = w * z2;
+	  
+		out[0] = 1 - yy - zz;
+		out[1] = yx + wz;
+		out[2] = zx - wy;
+		out[3] = 0;
+	  
+		out[4] = yx - wz;
+		out[5] = 1 - xx - zz;
+		out[6] = zy + wx;
+		out[7] = 0;
+	  
+		out[8] = zx + wy;
+		out[9] = zy - wx;
+		out[10] = 1 - xx - yy;
+		out[11] = 0;
+	  
+		out[12] = 0;
+		out[13] = 0;
+		out[14] = 0;
+		out[15] = 1;
+	  
+		return output;
+	}
+
+	static createScale(v) {
+		return new Matrix4(
+			[
+				v.x, 0, 0, 0,
+				0, v.y, 0, 0,
+				0, 0, v.z, 0,
+				0, 0, 0, 1
+			]
+		);
+	}
+	
 }
 
 export default Matrix4;

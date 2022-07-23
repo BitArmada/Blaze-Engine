@@ -12,10 +12,10 @@ var Camera = function () {
 	this.view = Matrix4.translate(
 		this.view,
 		this.view,
-		[-0.0, 0.0, 0.0]
+		[0.0, 0.0, 0.0]
 	);
 
-	this.direction = new Vector(0,0,1);
+	this.direction = new Vector(0,0,-1);
 	return this;
 }
 

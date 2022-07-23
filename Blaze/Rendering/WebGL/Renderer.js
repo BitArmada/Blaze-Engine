@@ -36,13 +36,14 @@ void main() {
 		(0.4*vec3(color))+
 		(spec*lightColor*specularStrength),
 	1.0);
-	// gl_FragColor = vec4(spec,0.0, 0.0, 1.0);
+	//gl_FragColor = vec4(spec,0.0, 0.0, 1.0);
 	//gl_FragColor = vec4(TextureCoord, 0.0, 1.0);
-	//gl_FragColor = vec4(Normal, 1.0);
+	// gl_FragColor = vec4(Normal, 1.0);
+	// gl_FragColor = vec4(fragPos*0.1, 1.0);
 }
 `;
 var vs = glsl`
-attribute vec4 a_position;
+attribute vec3 a_position;
 attribute vec3 normal;
 attribute vec2 textureCoord;
 
@@ -60,9 +61,9 @@ varying highp vec2 TextureCoord;
 void main() {
 	viewPos = viewPosition;
 	TextureCoord = textureCoord;
-	fragPos = gl_Position.xyz;
 	Normal = normalize((normalMatrix * vec4(normal, 1.0)).xyz);
-    gl_Position = projection * model * view * a_position;
+    gl_Position = projection * view * model * vec4(a_position, 1.0);
+	fragPos = gl_Position.xyz;
 }
 `;
 
@@ -138,7 +139,7 @@ class Renderer{
 		// uniforms
 		shader.assignUniform('projection', this.projection);
 		shader.assignUniform('view', this.view.array);
-		shader.assignUniform('model', mesh.transform);
+		shader.assignUniform('model', mesh.transform.array);
 
 		// material values
 		shader.assignUniform('baseColor', material.color);
