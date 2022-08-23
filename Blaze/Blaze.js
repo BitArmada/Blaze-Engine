@@ -7,6 +7,7 @@ import Components from './components/Components.js';
 import Entity from './Entity/Entity.js';
 import InputManager from './Input/Input.js';
 import Script from './scripting/Script.js';
+import Euler from './Util/Euler.js';
 
 var Input = new InputManager();
 
@@ -19,4 +20,5 @@ export {
     Entity,
     Input,
     Script,
+    Euler,
 };

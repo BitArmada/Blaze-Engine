@@ -1,6 +1,6 @@
 import Vector from '../Util/Vector.js';
 
-function Physics (STATIC, body) {
+function Physics (STATIC) {
 	
 	// this.mass = 0.02;
 	// this.velocity = new Vector();

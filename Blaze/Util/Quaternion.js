@@ -49,6 +49,75 @@ class Quaternion {
 
 	}
 
+    // from three js github
+    setFromEuler( euler ) {
+
+		const x = euler.x, y = euler.y, z = euler.z, order = euler.order;
+
+		const cos = Math.cos;
+		const sin = Math.sin;
+
+		const c1 = cos( x / 2 );
+		const c2 = cos( y / 2 );
+		const c3 = cos( z / 2 );
+
+		const s1 = sin( x / 2 );
+		const s2 = sin( y / 2 );
+		const s3 = sin( z / 2 );
+
+		switch ( order ) {
+
+			case 'XYZ':
+				this.x = s1 * c2 * c3 + c1 * s2 * s3;
+				this.y = c1 * s2 * c3 - s1 * c2 * s3;
+				this.z = c1 * c2 * s3 + s1 * s2 * c3;
+				this.w = c1 * c2 * c3 - s1 * s2 * s3;
+				break;
+
+			case 'YXZ':
+				this.x = s1 * c2 * c3 + c1 * s2 * s3;
+				this.y = c1 * s2 * c3 - s1 * c2 * s3;
+				this.z = c1 * c2 * s3 - s1 * s2 * c3;
+				this.w = c1 * c2 * c3 + s1 * s2 * s3;
+				break;
+
+			case 'ZXY':
+				this.x = s1 * c2 * c3 - c1 * s2 * s3;
+				this.y = c1 * s2 * c3 + s1 * c2 * s3;
+				this.z = c1 * c2 * s3 + s1 * s2 * c3;
+				this.w = c1 * c2 * c3 - s1 * s2 * s3;
+				break;
+
+			case 'ZYX':
+				this.x = s1 * c2 * c3 - c1 * s2 * s3;
+				this.y = c1 * s2 * c3 + s1 * c2 * s3;
+				this.z = c1 * c2 * s3 - s1 * s2 * c3;
+				this.w = c1 * c2 * c3 + s1 * s2 * s3;
+				break;
+
+			case 'YZX':
+				this.x = s1 * c2 * c3 + c1 * s2 * s3;
+				this.y = c1 * s2 * c3 + s1 * c2 * s3;
+				this.z = c1 * c2 * s3 - s1 * s2 * c3;
+				this.w = c1 * c2 * c3 - s1 * s2 * s3;
+				break;
+
+			case 'XZY':
+				this.x = s1 * c2 * c3 - c1 * s2 * s3;
+				this.y = c1 * s2 * c3 - s1 * c2 * s3;
+				this.z = c1 * c2 * s3 + s1 * s2 * c3;
+				this.w = c1 * c2 * c3 + s1 * s2 * s3;
+				break;
+
+			default:
+				console.warn( 'Blaze.Quaternion: .setFromEuler() encountered an unknown order: ' + order );
+
+		}
+
+		return this;
+
+	}
+
     // resource for this function
     //http://lolengine.net/blog/2013/09/18/beautiful-maths-quaternion-from-vectors
     fromUnitVectors(u, v){

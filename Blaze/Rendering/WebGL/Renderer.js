@@ -111,7 +111,7 @@ class Renderer{
 
 		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 	}
-	renderMesh(mesh, material, shader){
+	renderMesh(mesh, transform, material, shader){
 		const gl = this.gl;
 		
 		// use the shader
@@ -139,7 +139,7 @@ class Renderer{
 		// uniforms
 		shader.assignUniform('projection', this.projection);
 		shader.assignUniform('view', this.view.array);
-		shader.assignUniform('model', mesh.transform.array);
+		shader.assignUniform('model', transform.matrix.array);
 
 		// material values
 		shader.assignUniform('baseColor', material.color);
@@ -152,7 +152,7 @@ class Renderer{
 		}
 
 		mesh.normalMatrix = new Matrix4();
-		Matrix4.invert(mesh.normalMatrix.array, mesh.transform);
+		Matrix4.invert(mesh.normalMatrix, transform.matrix);
 		mesh.normalMatrix.transpose();
 		
 		shader.assignUniform('normalMatrix', mesh.normalMatrix.array);

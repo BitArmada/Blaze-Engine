@@ -1,5 +1,6 @@
 import RenderSystem from "./RenderSystem.js";
 import ScriptSystem from "./ScriptSystem.js";
+import PhysicsSystem from "./Physics/PhysicsSystem.js";
 import Components from "../components/Components.js";
 
 class SystemManager {
@@ -12,8 +13,21 @@ class SystemManager {
 
         this.systems = {
             renderSystem:  new RenderSystem(),
+            physicsSystem: new PhysicsSystem(),
             scriptSystem: new ScriptSystem(),
         };
+    }
+
+    add(entity){
+        for (const sID in this.systems) {
+
+            // check if entity has requirements
+            const valid = meetsRequirements(this.systems[sID], entity)
+            if(!valid) continue;
+
+            // call system
+            this.systems[sID].onEntityInit(entity);
+        }
     }
 
     start (entities) {

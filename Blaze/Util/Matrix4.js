@@ -128,7 +128,9 @@ class Matrix4{
 		
 		return new Matrix4(out);
 	}
-	static invert(out, a) {
+	static invert(output, a) {
+		a = a.array;
+		var out = output.array;
 		let a00 = a[0],
 			a01 = a[1],
 			a02 = a[2],
@@ -185,7 +187,7 @@ class Matrix4{
 		out[14] = (a31 * b01 - a30 * b03 - a32 * b00) * det;
 		out[15] = (a20 * b03 - a21 * b01 + a22 * b00) * det;
 
-		return out;
+		return output;
 	}
 
 	static translate(out, a, v){

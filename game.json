@@ -1,0 +1,14 @@
+{
+    "name": "test",
+    "scenes":{
+        "start": {
+            "entities": {}
+        }
+    },
+    "assets":{
+        
+    },
+    "scripts":{
+
+    }
+}

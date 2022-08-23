@@ -66,6 +66,15 @@ class Vector{
 		this.z = Math.abs(this.z);
 		return this;
 	}
+	subtract(v){
+		if(v.constructor !== this.constructor){
+			this.x -= v;
+			this.y -= v;
+			this.z -= v;
+		}
+
+		return this;
+	}
 	static cross(a, b){
 		var n = new Vector(
 			(a.y*b.z)-(a.z*b.y),
@@ -84,11 +93,21 @@ class Vector{
 		return v;
 	}
 	static subtract(a, b){
-		var v = new Vector(
-			a.x-b.x,
-			a.y-b.y,
-			a.z-b.z,
-		);
+		if(b.constructor !== Vector){
+			var v = new Vector(
+				a.x-b,
+				a.y-b,
+				a.z-b,
+			);
+
+		}else{
+			var v = new Vector(
+				a.x-b.x,
+				a.y-b.y,
+				a.z-b.z,
+			);
+		}
+
 		return v;
 	}
 	static multiply(vec1, vec2){
