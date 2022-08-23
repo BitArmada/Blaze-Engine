@@ -46,6 +46,8 @@ class PhysicsSystem extends System{
 			type: 'new entity',
 			entity: {
 				id: ent.id,
+				mass: ent.Physics.mass,
+				scale: ent.Transform.scale,
 				position: ent.Transform.position,
 				quaternion: ent.Transform.quaternion,
 			}
@@ -56,8 +58,7 @@ class PhysicsSystem extends System{
 
 	}
 
-	update(entity){
-
+	update(){
 		// send data
 		if(this.workerloaded){
 			this.physicsWorker.postMessage({
@@ -65,12 +66,20 @@ class PhysicsSystem extends System{
 				deltaTime: Time.deltaTime,
 			});
 		}
+	}
+
+	updateEntity(entity){
 
 		// apply results
 		if(this.results && this.results[entity.id]){
 			entity.Transform.position.x = this.results[entity.id].position.x;
 			entity.Transform.position.y = this.results[entity.id].position.y;
 			entity.Transform.position.z = this.results[entity.id].position.z;
+
+			entity.Transform.quaternion.x = this.results[entity.id].quaternion.x;
+			entity.Transform.quaternion.y = this.results[entity.id].quaternion.y;
+			entity.Transform.quaternion.z = this.results[entity.id].quaternion.z;
+			entity.Transform.quaternion.w = this.results[entity.id].quaternion.w;
 		}
 	}
 }

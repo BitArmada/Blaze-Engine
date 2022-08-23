@@ -12,11 +12,9 @@ Ammo(config).then(function(Ammo) {
     var overlappingPairCache = new Ammo.btDbvtBroadphase();
     var solver = new Ammo.btSequentialImpulseConstraintSolver();
     var physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-    physicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
+    physicsWorld.setGravity(new Ammo.btVector3(-3, -10, 0));
 
     var bodies = {};
-
-    var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(1, 1, 1));
 
     function addBody(e){
 
@@ -27,7 +25,9 @@ Ammo(config).then(function(Ammo) {
         transform.setOrigin( new Ammo.btVector3( e.position.x, e.position.y, e.position.z ) );
         transform.setRotation( new Ammo.btQuaternion( e.quaternion.x, e.quaternion.y, e.quaternion.z, e.quaternion.w ) );
 
-        var mass = 1;
+        var boxShape = new Ammo.btBoxShape(new Ammo.btVector3(e.scale.x, e.scale.y, e.scale.z));
+
+        var mass = e.mass;
         var localInertia = new Ammo.btVector3(0, 0, 0);
         boxShape.calculateLocalInertia(mass, localInertia);
   

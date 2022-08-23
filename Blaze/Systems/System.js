@@ -18,6 +18,10 @@ class System {
     update(){
 
     }
+
+    updateEntity(){
+        
+    }
 }
 
 export default System;

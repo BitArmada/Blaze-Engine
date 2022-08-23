@@ -50,19 +50,19 @@ class SystemManager {
     update (entities) {
 
 		//render entities
-        for (const eID in entities) {
-            const entity = entities[eID];
+        for (const sID in this.systems) {
+            const system = this.systems[sID];
+            system.update();
 
-            
-            for (const sID in this.systems) {
-                const system = this.systems[sID];
+            for (const eID in entities) {
+                const entity = entities[eID];
                 
                 // check if entity meets reqs
                 const valid = meetsRequirements(system, entity)
 
                 if(valid){
 
-                    system.update(entity);
+                    system.updateEntity(entity);
 
                     for (const cID in entity){
                         // if system contains a function for this component call it
