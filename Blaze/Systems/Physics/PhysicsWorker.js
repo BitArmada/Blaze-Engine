@@ -12,7 +12,7 @@ Ammo(config).then(function(Ammo) {
     var overlappingPairCache = new Ammo.btDbvtBroadphase();
     var solver = new Ammo.btSequentialImpulseConstraintSolver();
     var physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-    physicsWorld.setGravity(new Ammo.btVector3(-3, -10, 0));
+    physicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
 
     var bodies = {};
 

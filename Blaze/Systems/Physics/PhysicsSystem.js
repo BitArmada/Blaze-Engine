@@ -59,13 +59,20 @@ class PhysicsSystem extends System{
 	}
 
 	update(){
+
 		// send data
 		if(this.workerloaded){
+			
+			if(this.waitingMessages.length > 0){
+				this.disbatchMessages();
+			}
+
 			this.physicsWorker.postMessage({
 				type: 'update',
 				deltaTime: Time.deltaTime,
 			});
 		}
+
 	}
 
 	updateEntity(entity){
