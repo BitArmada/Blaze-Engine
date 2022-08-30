@@ -1,13 +1,9 @@
 import Vector from '../Util/Vector.js';
 
-function Physics (mass) {
+function Physics (mass, collider) {
 	
 	this.mass = mass ?? 1;
-	// this.velocity = new Vector();
-	// this.force = new Vector();
-	// this.gravity = new Vector(0,9.8);
-
-	// this.movable = movable ?? false;
+	this.collider = collider ?? 'Box';
 
 	return this;
 }

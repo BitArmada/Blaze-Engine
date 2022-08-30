@@ -3,6 +3,7 @@ import {default as WebGLMesh} from '../Rendering/WebGL/Mesh.js';
 
 var Mesh = function (model) {
 	if(model){
+		this.meshLoaded = false;
 		this.mesh = new WebGLMesh();
 
 		// load file
@@ -10,10 +11,12 @@ var Mesh = function (model) {
 		.then(response => response.text()) 
 		.then(textData => {
 			WebGLMesh.loadObj(this.mesh, textData);
+			this.meshLoaded = true;
 		});
 
 	}else{
 		this.mesh = new WebGLMesh();
+		this.meshLoaded = true;
 	}
 
 	// console.log(this.mesh.vertices);

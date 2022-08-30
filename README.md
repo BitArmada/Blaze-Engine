@@ -11,6 +11,9 @@ Blaze Engine
 3. Interactive editor
 
 # TODO
+- make physics update syncronized
+
+
 - change component system to use classes
 - update shading system
 - add texture loading

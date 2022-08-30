@@ -3,11 +3,6 @@ import Time from '../../Util/Time.js';
 
 class PhysicsSystem extends System{
 
-	requirements = [
-		'Transform',
-		'Physics',
-	];
-
 	constructor(){
 		super();
 		// create physics worker
@@ -16,6 +11,7 @@ class PhysicsSystem extends System{
 		this.workerloaded = false;
 		this.results = null;
 		this.waitingMessages = [];
+		this.waitingEntities = [];
 
 		this.physicsWorker.onmessage = function(event) {
 			switch (event.data.type){
@@ -36,21 +32,44 @@ class PhysicsSystem extends System{
 	disbatchMessages(){
 		const messages = this.waitingMessages.length;
 		for(var i = 0; i < messages; i++){
+			if(this.waitingMessages[0] == false){
+				this.onEntityInit(this.waitingEntities[0])
+				this.waitingEntities.shift();
+			}
 			this.physicsWorker.postMessage(this.waitingMessages[0]);
 			this.waitingMessages.shift();
 		}
 	}
 
 	onEntityInit(ent){
+
+		var collider = {
+			type: ent.Physics.collider,
+		};
+
+		if(ent.Physics.collider == 'Mesh'){
+			if(ent.Mesh.meshLoaded){
+				collider.mesh = {
+					vertices: ent.Mesh.mesh.vertices,
+					indices: ent.Mesh.mesh.indices,
+				};
+			}else{
+				this.waitingMessages.push(false);
+				this.waitingEntities.push(ent);
+				return;
+			}
+		}
+
 		this.waitingMessages.push({
 			type: 'new entity',
 			entity: {
 				id: ent.id,
+				collider: collider,
 				mass: ent.Physics.mass,
 				scale: ent.Transform.scale,
 				position: ent.Transform.position,
 				quaternion: ent.Transform.quaternion,
-			}
+			},
 		});
 	}
 
@@ -58,18 +77,30 @@ class PhysicsSystem extends System{
 
 	}
 
-	update(){
+	generateEntityData(ents){
+		let data = {};
+		for(const id in ents){
+			data[id] = {
+				scale: ents[id].Transform.scale,
+				position: ents[id].Transform.position,
+				quaternion: ents[id].Transform.quaternion,
+			}
+		}
+		return data;
+	}
+
+	update(ents){
 
 		// send data
 		if(this.workerloaded){
-			
+
 			if(this.waitingMessages.length > 0){
 				this.disbatchMessages();
 			}
 
 			this.physicsWorker.postMessage({
 				type: 'update',
-				deltaTime: Time.deltaTime,
+				entities: this.generateEntityData(ents)
 			});
 		}
 

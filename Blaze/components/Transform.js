@@ -15,7 +15,6 @@ class Transform {
 	constructor(position, scale){
 		this.position = position ?? new Vector();
 		this.scale = scale ?? new Vector(1,1,1);
-		this.rotation = new Euler();
 
 		this.quaternion = new Quaternion();
 

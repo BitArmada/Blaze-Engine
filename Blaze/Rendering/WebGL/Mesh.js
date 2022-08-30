@@ -483,8 +483,6 @@ o mesh`;
 
 		mesh.initData();
 
-		console.log(mesh)
-
 		return mesh;
 	}
 	static Sphere(){

@@ -52,7 +52,7 @@ class SystemManager {
 		//render entities
         for (const sID in this.systems) {
             const system = this.systems[sID];
-            system.update();
+            system.update(entities);
 
             for (const eID in entities) {
                 const entity = entities[eID];
